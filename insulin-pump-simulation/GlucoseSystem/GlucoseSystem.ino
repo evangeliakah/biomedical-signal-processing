@@ -1,7 +1,7 @@
 // Closed-loop insulin pump simulation on Arduino.
 // Integrates a glucose-insulin model (states Q, G, I) with a simple
-// Euler step each loop, and a PID controller that adds insulin to hold
-// glucose near a target after a meal.
+// Euler step each loop (one step = one simulated minute), and a PID
+// controller that adds insulin to hold glucose near a target after a meal.
 
 #include <SD.h>
 #include <SPI.h>
@@ -9,11 +9,11 @@
 // ---- Simulation settings ----
 const int END_STEP = 400;       // stop after this many steps
 const int MEAL_STEPS = 15;      // meal is absorbed during the first steps
-const float MEAL_SIZE = 300;    // meal input while eating
+const float MEAL_SIZE = 300;    // meal input while eating (15 g glucose = 300 mg/dL)
 const int STEP_DELAY_MS = 100;
 
 // ---- State variables (initial conditions) ----
-// Q: meal-related state, G: glucose, I: insulin
+// Q: intestinal glucose, G: blood glucose (mg/dL), I: insulin (uU/mL)
 float Q = 0;
 float G = 163.0;
 float I = 11.26;
